@@ -37,6 +37,8 @@ const quizData = [
    }
 ];
 
+const answersEls = document.querySelectorAll(".answer");
+const quiz = document.getElementById('quiz');
 const questionEl = document.getElementById('question');
 const a_text = document.getElementById('a_text');
 const b_text = document.getElementById('b_text');
@@ -45,11 +47,13 @@ const d_text = document.getElementById('d_text');
 const submitBtn = document.getElementById('submit');
 
 let currentQuiz = 0;
-let answer = undefined;
+let score = 0;
 
 loadQuiz();
 
 function loadQuiz(){
+   deselectAnswers();
+
    const currentQuizData = quizData[currentQuiz];
 
    questionEl.innerText = currentQuizData.question;
@@ -60,24 +64,48 @@ function loadQuiz(){
 }
 
 function getSelected() {
-   const answersEls = document.querySelectorAll(".answer");
+   let answer = undefined;
 
-   answersEls.forEach(answerEl => {
-      if(answerEl.chedked){
+   answersEls.forEach((answerEl) => {
+      if(answerEl.checked){
          answer = answerEl.id;
       }
    });
+
+   return answer;
 }
 
-submitBtn.addEventListener('click', () => {
-   currentQuiz++;
+function deselectAnswers(){
+   answersEls.forEach((answerEl) => {
+         answerEl.checked = false;
+   });
+}
 
-   getSelected();
+submitBtn.addEventListener("click", () => {
+   // check to see the answer   
+   const answer = getSelected();
+   // const currentQuizData = quizData[currentQuiz];
 
-   // if(currentQuiz < quizData.length){
-   //    loadQuiz();
-   // } else {
-   //    // TODO : Show results
-   //    alert("You finished! Get yourself and Orange Lemonade");
+   // resultMsg = "\n\nYou select : " + answer + ". " + currentQuizData.$answer + "\ncorrect answer : " +  currentQuizData.correct; 
+   // if(answer == currentQuizData.correct){
+   //    alert("Success!!" + resultMsg);
+   // }else{
+   //    alert("fail!!" + resultMsg);
    // }
+
+   
+   if(answer) {
+      if(answer == quizData[currentQuiz].correct){
+         score++;
+      }
+      
+      console.log(answer + score);
+      currentQuiz++;
+      if(currentQuiz < quizData.length){
+         loadQuiz();
+      } else {
+         // TODO : Show results
+         alert("You finished! Get yourself and Orange Lemonade");
+      }
+   }
 });
