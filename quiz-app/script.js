@@ -37,8 +37,8 @@ const quizData = [
    }
 ];
 
-const answersEls = document.querySelectorAll(".answer");
 const quiz = document.getElementById('quiz');
+const answersEls = document.querySelectorAll(".answer");
 const questionEl = document.getElementById('question');
 const a_text = document.getElementById('a_text');
 const b_text = document.getElementById('b_text');
@@ -84,15 +84,6 @@ function deselectAnswers(){
 submitBtn.addEventListener("click", () => {
    // check to see the answer   
    const answer = getSelected();
-   // const currentQuizData = quizData[currentQuiz];
-
-   // resultMsg = "\n\nYou select : " + answer + ". " + currentQuizData.$answer + "\ncorrect answer : " +  currentQuizData.correct; 
-   // if(answer == currentQuizData.correct){
-   //    alert("Success!!" + resultMsg);
-   // }else{
-   //    alert("fail!!" + resultMsg);
-   // }
-
    
    if(answer) {
       if(answer == quizData[currentQuiz].correct){
@@ -104,8 +95,9 @@ submitBtn.addEventListener("click", () => {
       if(currentQuiz < quizData.length){
          loadQuiz();
       } else {
-         // TODO : Show results
-         alert("You finished! Get yourself and Orange Lemonade");
+         quiz.innerHTML = 
+         `<h2>You answered correctly at ${score}/${quizData.length} questions.</h2> 
+         <button onclick="location.reload()">Reload</button>`;
       }
    }
 });
